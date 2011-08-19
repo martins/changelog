@@ -5,3 +5,4 @@ tmp/
 *~
 .rvmrc
 config/initializers/pivotal_tracker.rb
+*.DS_Store
