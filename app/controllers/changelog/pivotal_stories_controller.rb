@@ -1,4 +1,4 @@
-class PivotalStoriesController < ApplicationController
+class Changelog::PivotalStoriesController < ApplicationController
   def index
     @stories = Changelog::PivotalStory.all
   end
