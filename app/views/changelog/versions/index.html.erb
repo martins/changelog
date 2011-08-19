@@ -1,0 +1,31 @@
+<h1>Listing changelog_versions</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Major</th>
+    <th>Minor</th>
+    <th>Build</th>
+    <th>Release date</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @changelog_versions.each do |changelog_version| %>
+  <tr>
+    <td><%= changelog_version.name %></td>
+    <td><%= changelog_version.major %></td>
+    <td><%= changelog_version.minor %></td>
+    <td><%= changelog_version.build %></td>
+    <td><%= changelog_version.release_date %></td>
+    <td><%= link_to 'Show', changelog_version %></td>
+    <td><%= link_to 'Edit', edit_changelog_version_path(changelog_version) %></td>
+    <td><%= link_to 'Destroy', changelog_version, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Version', new_changelog_version_path %>

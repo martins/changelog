@@ -1,0 +1,37 @@
+<%= form_for(@changelog_version) do |f| %>
+  <% if @changelog_version.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@changelog_version.errors.count, "error") %> prohibited this changelog_version from being saved:</h2>
+
+      <ul>
+      <% @changelog_version.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :major %><br />
+    <%= f.text_field :major %>
+  </div>
+  <div class="field">
+    <%= f.label :minor %><br />
+    <%= f.text_field :minor %>
+  </div>
+  <div class="field">
+    <%= f.label :build %><br />
+    <%= f.text_field :build %>
+  </div>
+  <div class="field">
+    <%= f.label :release_date %><br />
+    <%= f.date_select :release_date %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

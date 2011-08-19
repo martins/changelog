@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @changelog_version.name %>
+</p>
+
+<p>
+  <b>Major:</b>
+  <%= @changelog_version.major %>
+</p>
+
+<p>
+  <b>Minor:</b>
+  <%= @changelog_version.minor %>
+</p>
+
+<p>
+  <b>Build:</b>
+  <%= @changelog_version.build %>
+</p>
+
+<p>
+  <b>Release date:</b>
+  <%= @changelog_version.release_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_changelog_version_path(@changelog_version) %> |
+<%= link_to 'Back', changelog_versions_path %>
