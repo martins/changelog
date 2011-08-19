@@ -1,27 +1,21 @@
 module Changelog
   class PivotalStory < ActiveRecord::Base
-    def self.retrieve_pivotal_stories
-      stored_id = PivotalStory.select(:story_id).map(&:story_id)
-      # stories = PivotalTracker::Project.find(351663).stories.find(:story_type => ['feature', 'bug'], :current_state => 'accepted')
-      stories = PivotalTracker::Project.find(ENV['PTR_PRID']).stories.all
-      stories.reject{|story| stored_id.include?(story.id)}.compact if stories.present?
-    end
+    belongs_to :version
 
-    def self.store_new_pivotal_stories(release_version)
-      new_stories = PivotalStory.retrieve_pivotal_stories
-      if new_stories.present?
+    def self.store_pivotal_stories(release_version_name, release_version_id)
+      stories = PivotalTracker::Project.find(ENV['PTR_PRID']).stories.all(:story_type => ['feature', 'bug'], :current_state => 'accepted', :label => release_version_name)
+      if stories.present?
         transaction do
-          new_stories.each do |new_story|
+          stories.each do |new_story|
             PivotalStory.new(
               :title => new_story.name,
               :story_type => new_story.story_type,
-              :story_id => new_story.id
+              :story_id => new_story.id,
+              :version_id => release_version_id
             ).save
           end
         end
-        new_stories.count
-      else
-        0
+        p "#{stories.count} added to #{release_version_name} release version"
       end
     end
   end
