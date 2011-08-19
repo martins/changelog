@@ -1,23 +1,28 @@
-Stories
-
+<h1>Stories</h1>
+<p id="notice"><%= params[:notice] %></p>
 <table>
   <tr>
-    <th>Version id</th>
-    <th>Title</th>
+    <th>Release version</th>
     <th>Type</th>
-    <th>story_id</th>
+    <th>Title</th>
+    <th>Accepted at</th>
   </tr>
 <% @stories.each do |story| %>
-  <tr>
-    <td><%= story.version_id %></td>
-    <td><%= story.title %></td>
-    <td><%= story.story_type %></td>
-    <td><%= story.story_id %></td>
-    <td> | </td>
-
-    <td><%= link_to 'edit', edit_changelog_pivotal_story_path(story.id), :method => :get %></td>
-  </tr>
+  <%= form_tag changelog_pivotal_story_path(story.id), :method => :put do |f| %>
+    <tr>
+      <td><%= label_tag story.version.name %></td>
+      <td><%= label_tag story.story_type %></td>
+      <td><%= text_area_tag :title, story.title %></td>
+      <td><%= label_tag story.accepted_at %></td>
+      <td> <%= submit_tag 'Update', :disable_with => 'Updating...' %> </td>
+      <td><%= hidden_field_tag 'version', @selected_version %></td>
+    </tr>
+  <% end %>
 <% end %>
 </table>
-
-<%= button_to 'Get pivotaltracker data', {:action => 'new'}, :method => 'get' %>
+</br>
+<%= form_tag changelog_pivotal_stories_path, :method => :get do %>
+  <%= label_tag :version_id, 'Select release version' %>
+  <%= select_tag :version,  options_from_collection_for_select(@possible_versions, 'id', 'name', :selected => @selected_version) %>
+  <%= submit_tag 'Show', :disable_with => 'Loading...' %>
+<% end %>
