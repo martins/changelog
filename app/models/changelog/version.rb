@@ -1,4 +1,6 @@
-class Changelog::Version < ActiveRecord::Base
+module Changelog
+  class Version < ActiveRecord::Base
+  end
 end
 
 # == Schema Information
