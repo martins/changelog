@@ -1,0 +1,9 @@
+<%= form_for @story do |f| %>
+  <%= f.label :version_id %>:
+  <%= f.text_field :version_id %><br />
+  <%= f.label :title %>:
+  <%= f.text_field :title %><br />
+  <%= f.label :story_type %>:
+  <%= f.text_field(:story_type, :disabled => true) %><br />
+  <%= f.submit %>
+<% end %>

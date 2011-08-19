@@ -1,0 +1,23 @@
+Stories
+
+<table>
+  <tr>
+    <th>Version id</th>
+    <th>Title</th>
+    <th>Type</th>
+    <th>story_id</th>
+  </tr>
+<% @stories.each do |story| %>
+  <tr>
+    <td><%= story.version_id %></td>
+    <td><%= story.title %></td>
+    <td><%= story.story_type %></td>
+    <td><%= story.story_id %></td>
+    <td> | </td>
+
+    <td><%= link_to 'edit', edit_changelog_pivotal_story_path(story.id), :method => :get %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= button_to 'Get pivotaltracker data', {:action => 'new'}, :method => 'get' %>
