@@ -14,7 +14,6 @@ class Changelog::PivotalStoriesController < ApplicationController
 
   def update
     @story = Changelog::PivotalStory.find(params[:id])
-    p params
     if @story.update_attributes(params[:pivotal_story])
       redirect_to :action => :index, :notice => 'Information updated'
     else
