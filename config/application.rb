@@ -38,5 +38,11 @@ module Changelog
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+
+    # Configure generators values. Many other options are available, be sure to check the documentation.
+    config.generators do |g|
+      g.integration_tool :rspec
+      g.test_framework :rspec, :fixture => false
+    end
   end
 end
