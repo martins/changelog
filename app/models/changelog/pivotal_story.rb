@@ -4,20 +4,25 @@ module Changelog
     default_scope order('story_type, accepted_at DESC, title')
 
     def self.store_pivotal_stories(release_version_name, release_version_id)
-      stories = PivotalTracker::Project.find(ENV['PTR_PRID']).stories.all(:story_type => ['feature', 'bug'], :current_state => 'accepted', :label => release_version_name)
-      if stories.present?
-        transaction do
-          stories.each do |new_story|
-            PivotalStory.new(
-              :title => new_story.name,
-              :story_type => new_story.story_type,
-              :story_id => new_story.id,
-              :accepted_at => new_story.accepted_at,
-              :version_id => release_version_id
-            ).save
+      project = ENV['PTR_PRID'] && PivotalTracker::Project.find(ENV['PTR_PRID'])
+      if project
+        stories = project.stories.all(:story_type => ['feature', 'bug'], :current_state => 'accepted', :label => release_version_name)
+        if stories.present?
+          transaction do
+            stories.each do |new_story|
+              PivotalStory.new(
+                :title => new_story.name,
+                :story_type => new_story.story_type,
+                :story_id => new_story.id,
+                :accepted_at => new_story.accepted_at,
+                :version_id => release_version_id
+              ).save
+            end
           end
+          p "#{stories.count} added to #{release_version_name} release version"
         end
-        p "#{stories.count} added to #{release_version_name} release version"
+      else
+        p 'Unnable to retrieve project. Please check Project ID and Pivotaltracker Client token.'
       end
     end
   end
@@ -34,5 +39,3 @@ end
 #  created_at  :datetime
 #  updated_at  :datetime
 #  accepted_at :date
-#
-
