@@ -10,7 +10,7 @@ module Changelog
       validates_uniqueness_of :name
 
       def self.add_stories
-        version_ids = self.get_used_version_ids
+        version_ids = self.used_version_ids
         empty_release_versions = (version_ids.present? ? Changelog::Version.where('id NOT IN (:version_ids)', {:version_ids => version_ids}) : Changelog::Version.all)
         empty_release_versions.each do |release_version|
           Changelog::PivotalStory.store_pivotal_stories(release_version.name, release_version.id)
@@ -23,12 +23,12 @@ module Changelog
       end
 
       def self.latest
-        version_ids = self.get_used_version_ids
+        version_ids = self.used_version_ids
         Changelog::Version.where('id IN (:version_ids)', {:version_ids => version_ids}).first if version_ids.present?
       end
 
       def self.with_stories
-        version_ids = self.get_used_version_ids
+        version_ids = self.used_version_ids
         Changelog::Version.where('id IN (:version_ids)', {:version_ids => version_ids}) if version_ids.present?
       end
 
@@ -38,7 +38,7 @@ module Changelog
         self.name = "#{self.major}.#{self.minor}.#{self.build}"
       end
 
-      def self.get_used_version_ids
+      def self.used_version_ids
         version_ids = Changelog::PivotalStory.select('DISTINCT version_id').map(&:version_id)
       end
   end
