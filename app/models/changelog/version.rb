@@ -6,7 +6,7 @@ module Changelog
 
       default_scope order('release_date DESC, major DESC, minor DESC, build DESC')
 
-      validates_presence_of :major, :minor, :build
+      validates_numericality_of :major, :minor, :build, :only_integer => true
       validates_uniqueness_of :name
 
       def self.add_stories
