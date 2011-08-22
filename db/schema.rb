@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 20110819124434) do
     t.date     "accepted_at"
   end
 
-  add_index "pivotal_stories", ["version_id"], :name => "altered_pivotal_stories_n1"
+  add_index "pivotal_stories", ["version_id"], :name => "pivotal_stories_n1"
 
   create_table "versions", :force => true do |t|
     t.string   "name"
