@@ -2,11 +2,12 @@ module Changelog
   class Version < ActiveRecord::Base
       has_many :pivotal_stories
 
-      before_save :generate_name
+      before_validation :generate_name
 
       default_scope order('release_date DESC, major DESC, minor DESC, build DESC')
 
       validates_presence_of :major, :minor, :build
+      validates_uniqueness_of :name
 
       def self.add_stories
         version_ids = self.get_used_version_ids
