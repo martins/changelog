@@ -12,4 +12,9 @@ namespace :changelog do
     p 'Task completed'
   end
 
+  desc 'Checks each release version for unsaved stories'
+  task :update => :environment do
+    Changelog::Version.update_stories
+    p 'Task completed'
+  end
 end

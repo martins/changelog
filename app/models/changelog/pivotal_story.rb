@@ -3,10 +3,13 @@ module Changelog
     belongs_to :version
     default_scope order('story_type, accepted_at DESC, title')
 
-    def self.store_pivotal_stories(release_version_name, release_version_id)
+    def self.store_pivotal_stories(release_version_name, release_version_id, existing_stories_ids = false)
       project = ENV['PTR_PRID'] && PivotalTracker::Project.find(ENV['PTR_PRID'])
       if project
-        stories = project.stories.all(:story_type => ['feature', 'bug'], :current_state => 'accepted', :label => release_version_name)
+        stories = project.stories.all(:story_type => ['feature', 'bug'], :current_state => 'accepted', :label => release_version_name, :includedone => true)
+        if existing_stories_ids.present? && stories.present?
+          stories.reject!{|story| existing_stories_ids.include?(story.id)}.compact!
+        end
         if stories.present?
           transaction do
             stories.each do |new_story|

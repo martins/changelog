@@ -32,6 +32,13 @@ module Changelog
         Changelog::Version.where('id IN (:version_ids)', {:version_ids => version_ids}) if version_ids.present?
       end
 
+      def self.update_stories
+        existing_stories_ids = Changelog::PivotalStory.select(:story_id).map(&:story_id)
+        Changelog::Version.all.each do |release_version|
+          Changelog::PivotalStory.store_pivotal_stories(release_version.name, release_version.id, existing_stories_ids)
+        end
+      end
+
       private
 
       def generate_name
