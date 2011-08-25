@@ -1,11 +1,8 @@
-<h1>Listing changelog_versions</h1>
+<h1>Release Versions</h1>
 
 <table>
   <tr>
     <th>Name</th>
-    <th>Major</th>
-    <th>Minor</th>
-    <th>Build</th>
     <th>Release date</th>
     <th></th>
     <th></th>
@@ -15,9 +12,6 @@
 <% @changelog_versions.each do |changelog_version| %>
   <tr>
     <td><%= changelog_version.name %></td>
-    <td><%= changelog_version.major %></td>
-    <td><%= changelog_version.minor %></td>
-    <td><%= changelog_version.build %></td>
     <td><%= changelog_version.release_date %></td>
     <td><%= link_to 'Show', changelog_version %></td>
     <td><%= link_to 'Edit', edit_changelog_version_path(changelog_version) %></td>
