@@ -46,7 +46,7 @@ module Changelog
       end
 
       def self.used_version_ids
-        version_ids = Changelog::PivotalStory.select('DISTINCT version_id').map(&:version_id)
+        version_ids = Changelog::PivotalStory.select('version_id').map(&:version_id).uniq
       end
   end
 end
