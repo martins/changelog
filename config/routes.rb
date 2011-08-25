@@ -5,5 +5,5 @@ Changelog::Application.routes.draw do
     resources :pivotal_stories, :only => [:index, :update]
     resources :versions
   end
-  root :to => "changelog/pivotal_stories#index"
+  root :to => 'changelog#release_notes'
 end

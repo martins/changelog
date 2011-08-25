@@ -1,0 +1,9 @@
+<div id = 'current-release'>
+  <% if @current_release %>
+    <h2>Version <%= @current_release[:version] %></h2>
+    <%= render 'release_version_details', :pivotal_stories => @current_release[:pivotal_stories][:features], :story_type => 'Feature' %>
+    <%= render 'release_version_details', :pivotal_stories => @current_release[:pivotal_stories][:bugs], :story_type => 'Bug' %>
+  <% else %>
+    <h2>There is no current version specified!</h2>
+  <% end %>
+</div>
