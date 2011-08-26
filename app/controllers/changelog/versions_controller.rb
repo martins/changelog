@@ -44,7 +44,7 @@ class Changelog::VersionsController < ApplicationController
 
     respond_to do |format|
       if @changelog_version.save
-        format.html { redirect_to(@changelog_version, :notice => 'Version was successfully created.') }
+        format.html { redirect_to(@changelog_version, :flash => {:notice => 'Version was successfully created.'}) }
         format.xml  { render :xml => @changelog_version, :status => :created, :location => @changelog_version }
       else
         format.html { render :action => "new" }
@@ -60,7 +60,7 @@ class Changelog::VersionsController < ApplicationController
 
     respond_to do |format|
       if @changelog_version.update_attributes(params[:changelog_version])
-        format.html { redirect_to(@changelog_version, :notice => 'Version was successfully updated.') }
+        format.html { redirect_to(@changelog_version, :flash => {:notice => 'Version was successfully updated.'}) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

@@ -1,25 +1,27 @@
-<h1>Release Versions</h1>
+<div class = 'changelog-container'>
+  <h1 class = 'title'>Release Versions</h1>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Release date</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+  <table id = 'versions-list'>
+    <tr class = 'title-row'>
+      <th>Name</th>
+      <th>Release date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
 
-<% @changelog_versions.each do |changelog_version| %>
-  <tr>
-    <td><%= changelog_version.name %></td>
-    <td><%= changelog_version.release_date %></td>
-    <td><%= link_to 'Show', changelog_version %></td>
-    <td><%= link_to 'Edit', edit_changelog_version_path(changelog_version) %></td>
-    <td><%= button_to 'Destroy', changelog_version, :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
+  <% @changelog_versions.each do |changelog_version| %>
+    <tr class = 'details-row'>
+      <td><%= changelog_version.name %></td>
+      <td><%= changelog_version.release_date %></td>
+      <td><%= link_to 'Show', changelog_version %></td>
+      <td><%= link_to 'Edit', edit_changelog_version_path(changelog_version) %></td>
+      <td><%= button_to 'Destroy', changelog_version, :method => :delete %></td>
+    </tr>
+  <% end %>
+  </table>
 
-<br />
+  <br />
 
-<%= link_to 'New Version', new_changelog_version_path %>
+  <%= link_to 'New Version', new_changelog_version_path %>
+</div>
