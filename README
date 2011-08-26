@@ -1,1 +1,34 @@
 This project is designed as rails engine and will collect changelog from pivotaltracker.
+
+=== INSTALLATION ===
+
+1.
+  include in gemfile
+  gem 'changelog'
+2.
+  run from main app console
+  rails generate changelog
+  it will create necessary migrations and initializer file
+3.
+  edit created initializer file. It should be in 'config/initializers/pivotaltracker.rb'
+  If you are using git, you should also include this file in .gitignore
+4.
+  run
+  rake db:migrate
+  to set up necessary data base tables
+5.
+  You are ready to go!
+
+=== MODIFYING  ===
+
+In order to change views, just create in your main app views with same name and path.
+Existing views:
+  app/views/changelog/current_release.html.erb
+  app/views/changelog/release_notes.html.erb
+  app/views/changelog/_release_version_details.html.erb
+  app/views/changelog/pivotal_stories/index.html.erb
+  app/views/changelog/versions/index.html.erb
+  app/views/changelog/versions/_form.html.erb
+  app/views/changelog/versions/edit.html.erb
+  app/views/changelog/versions/new.html.erb
+  app/views/changelog/versions/show.html.erb
