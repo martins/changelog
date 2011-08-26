@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     get :release_notes
     get :current_release
     resources :pivotal_stories, :only => [:index, :update, :destroy]
-    resources :versions
+    resources :versions, :except => :show
   end
 
   match mount_at => 'changelog#release_notes'

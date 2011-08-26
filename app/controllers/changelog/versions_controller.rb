@@ -10,17 +10,6 @@ class Changelog::VersionsController < ApplicationController
     end
   end
 
-  # GET /changelog/versions/1
-  # GET /changelog/versions/1.xml
-  def show
-    @changelog_version = Changelog::Version.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @changelog_version }
-    end
-  end
-
   # GET /changelog/versions/new
   # GET /changelog/versions/new.xml
   def new
@@ -44,7 +33,7 @@ class Changelog::VersionsController < ApplicationController
 
     respond_to do |format|
       if @changelog_version.save
-        format.html { redirect_to(@changelog_version, :flash => {:notice => 'Version was successfully created.'}) }
+        format.html { redirect_to(changelog_versions_url, :flash => {:notice => 'Version was successfully created.'}) }
         format.xml  { render :xml => @changelog_version, :status => :created, :location => @changelog_version }
       else
         format.html { render :action => "new" }
@@ -60,7 +49,7 @@ class Changelog::VersionsController < ApplicationController
 
     respond_to do |format|
       if @changelog_version.update_attributes(params[:changelog_version])
-        format.html { redirect_to(@changelog_version, :flash => {:notice => 'Version was successfully updated.'}) }
+        format.html { redirect_to(changelog_versions_url, :flash => {:notice => 'Version was successfully updated.'}) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

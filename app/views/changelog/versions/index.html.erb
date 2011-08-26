@@ -14,7 +14,6 @@
     <tr class = 'details-row'>
       <td><%= changelog_version.name %></td>
       <td><%= changelog_version.release_date %></td>
-      <td><%= link_to 'Show', changelog_version %></td>
       <td><%= link_to 'Edit', edit_changelog_version_path(changelog_version) %></td>
       <td><%= button_to 'Destroy', changelog_version, :method => :delete %></td>
     </tr>
