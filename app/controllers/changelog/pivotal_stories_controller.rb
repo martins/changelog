@@ -1,7 +1,7 @@
 class Changelog::PivotalStoriesController < ApplicationController
   def index
     version = (params[:version] && Changelog::Version.find(params[:version])) || Changelog::Version.latest
-    if version
+    if version.present?
       @stories = version.pivotal_stories
       @possible_versions = Changelog::Version.with_stories.select('DISTINCT id, name')
       @selected_version = version.id

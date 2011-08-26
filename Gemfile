@@ -1,12 +1,8 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.10'
-
-gem 'sqlite3'
-gem 'sqlite3-ruby', :require => 'sqlite3'
+# gem 'rails', '3.0.10'
 # gem 'capistrano'
 gem 'pivotal-tracker'
-gem "rake", "~>0.9.2"
 
 group :development, :test do
   gem "mongrel", :require => false
@@ -17,5 +13,6 @@ group :development, :test do
   gem 'launchy', :require => false
   gem 'database_cleaner', :require => false
   gem 'factory_girl_rails', "~> 1.1"
+  gem 'jeweler'
 end
 

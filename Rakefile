@@ -1,7 +1,14 @@
-# Add your own tasks in files placed in lib/tasks ending in .rake,
-# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
-
-require File.expand_path('../config/application', __FILE__)
-require 'rake'
-
-Changelog::Application.load_tasks
+# Jeweler
+begin
+  require "jeweler"
+  Jeweler::Tasks.new do |gem|
+    gem.name = "changelog"
+    gem.summary = "Gets stories from PivotalTracker and stores them for version management"
+    gem.email = "martins.zakis@tieto.com"
+    gem.authors = ["Martins Zakis"]
+    gem.files = Dir["{lib}/**/*", "{app}/**/*", "{db}/**/*", "{config}/**/*", "{spec}/**/*"]
+  end
+  Jeweler::GemcutterTasks.new
+rescue
+  puts "Jeweler or dependency not available."
+end

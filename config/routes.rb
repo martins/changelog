@@ -1,9 +1,13 @@
-Changelog::Application.routes.draw do
+Rails.application.routes.draw do
+
+  mount_at = Changelog::Engine.config.mount_at
+
   namespace :changelog do
     get :release_notes
     get :current_release
-    resources :pivotal_stories, :only => [:index, :update, :destroy]
+    resources :pivotal_stories, :only => [:index, :update]
     resources :versions
   end
-  root :to => 'changelog#release_notes'
+
+  match mount_at => 'changelog#release_notes'
 end
