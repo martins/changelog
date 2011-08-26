@@ -39,14 +39,14 @@ module Changelog
         end
       end
 
-      def self.parse_version(version, with_name = false)
+      def self.parse_version(version)
         {
-          :version => (with_name ? version.name : version.release_date),
+          :version => version.release_date,
           :pivotal_stories =>
-          {
-            :features => version.pivotal_stories.where(:story_type => 'feature'),
-            :bugs => version.pivotal_stories.where(:story_type => 'bug')
-          }
+            {
+              :features => version.pivotal_stories.where(:story_type => 'feature'),
+              :bugs => version.pivotal_stories.where(:story_type => 'bug')
+            }
         }
       end
 

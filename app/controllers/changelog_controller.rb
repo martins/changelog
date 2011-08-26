@@ -12,7 +12,7 @@ class ChangelogController < ApplicationController
   end
   def current_release
     version = Changelog::Version.latest
-    @current_release = version && Changelog::Version.parse_version(version, true)
+    @current_release = version && Changelog::Version.parse_version(version)
     respond_with @current_release
   end
 end

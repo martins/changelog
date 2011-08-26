@@ -1,6 +1,6 @@
 <div id = 'current-release' class='changelog-container'>
   <% if @current_release %>
-    <h2>Version <%= @current_release[:version] %></h2>
+    <h2><%= @current_release[:version] %></h2>
     <%= render 'release_version_details', :pivotal_stories => @current_release[:pivotal_stories][:features], :story_type => 'Feature' %>
     <%= render 'release_version_details', :pivotal_stories => @current_release[:pivotal_stories][:bugs], :story_type => 'Bug' %>
   <% else %>
