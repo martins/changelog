@@ -39,6 +39,10 @@ module Changelog
         end
       end
 
+      def remove_stories
+        pivotal_stories.delete_all if pivotal_stories.present?
+      end
+
       def self.parse_version(version)
         {
           :version => version.release_date,

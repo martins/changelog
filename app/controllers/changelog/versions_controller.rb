@@ -46,9 +46,10 @@ class Changelog::VersionsController < ApplicationController
   # PUT /changelog/versions/1.xml
   def update
     @changelog_version = Changelog::Version.find(params[:id])
-
+    old_name = @changelog_version.name
     respond_to do |format|
       if @changelog_version.update_attributes(params[:changelog_version])
+        @changelog_version.remove_stories if @changelog_version.name != old_name
         format.html { redirect_to(changelog_versions_url, :flash => {:notice => 'Version was successfully updated.'}) }
         format.xml  { head :ok }
       else
