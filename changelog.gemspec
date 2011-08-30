@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{changelog}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Martins Zakis}]
-  s.date = %q{2011-08-26}
+  s.date = %q{2011-08-30}
   s.email = %q{martins.zakis@tieto.com}
   s.extra_rdoc_files = [
     "README"
@@ -28,7 +28,6 @@ Gem::Specification.new do |s|
     "app/views/changelog/versions/edit.html.erb",
     "app/views/changelog/versions/index.html.erb",
     "app/views/changelog/versions/new.html.erb",
-    "app/views/changelog/versions/show.html.erb",
     "config/initializers/changelog.rb",
     "config/routes.rb",
     "db/migrate/20110817132722_create_pivotal_stories.rb",
@@ -37,6 +36,7 @@ Gem::Specification.new do |s|
     "lib/changelog.rb",
     "lib/engine.rb",
     "lib/rails/generators/changelog/changelog_generator.rb",
+    "lib/rails/generators/changelog/templates/pivotaltracker_initializer.rb",
     "lib/tasks/pivotal_tracker.rake",
     "spec/factories.rb",
     "spec/models/version_spec.rb",

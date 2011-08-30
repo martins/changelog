@@ -7,6 +7,7 @@ begin
     gem.email = "martins.zakis@tieto.com"
     gem.authors = ["Martins Zakis"]
     gem.files = Dir["{lib}/**/*", "{app}/**/*", "{db}/**/*", "{config}/**/*", "{spec}/**/*"]
+    gem.files.include 'lib/rails/generators/changelog/templates/pivotaltracker_initializer.rb'
   end
   Jeweler::GemcutterTasks.new
 rescue
