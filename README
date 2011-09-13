@@ -1,21 +1,27 @@
-This project is designed as rails engine and will collect changelog from pivotaltracker.
+This project is designed as rails engine, it will collect stories from pivotaltracker and display them as changelog.
 
 === INSTALLATION ===
 
 1.
   include in gemfile
-  gem 'changelog'
+    gem 'changelog'
 2.
   run from main app console
-  rails generate changelog
+    rails generate changelog
   it will create necessary migrations and initializer file
+  2.a.
+    if you want to also copy test files, answer yes to appropriate question
+    Bear in mind, that tests use rspec, capybara, factory_girl and database_cleaner. So in order to run tests, you must first install those gems.
 3.
   edit created initializer file. It should be in 'config/initializers/pivotaltracker.rb'
   If you are using git, you should also include this file in .gitignore
 4.
   run
-  rake db:migrate
+    rake db:migrate
   to set up necessary data base tables
+  run also
+    rake db:test:prepare
+  if you copied test files, to setup test database
 5.
   You are ready to go!
 
