@@ -2,7 +2,7 @@
   <h4><%= story_type %></h4>
   <ul>
     <% pivotal_stories.each do |story| %>
-      <li><%= story.title %></li>
+      <li><%= story[:title] %></li>
     <% end %>
   </ul>
 <% end %>
