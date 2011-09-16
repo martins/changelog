@@ -1,14 +1,23 @@
 module Changelog
   class Release
-    def self.get_yaml_data
-      data = YAML.load_file(File.join(Rails.root, "changelog.yml"))
+
+    def self.get_raw_yaml_data
+      YAML.load_file(File.join(Rails.root, "changelog.yml"))
     end
 
-    def self.get_release_notes
-      data = self.get_yaml_data
+    def self.get_formated_yaml_data
+      raw_data = self.get_raw_yaml_data
+      raw_data.map! do |version|
+        version[:changelog_version]
+      end
+      raw_data.each do |version|
+        version[:pivotal_stories].map!{|story| story[:pivotal_story]} if version[:pivotal_stories].present?
+      end
+    end
+
+    def self.get_release_notes(data)
       relese_notes = []
-      data.each do |content|
-        version = content[:changelog_version]
+      data.each do |version|
         if version.present? && version[:pivotal_stories].present?
           relese_notes << self.parse_version(version)
         end
@@ -16,9 +25,8 @@ module Changelog
       relese_notes
     end
 
-    def self.get_current_release
-      data = self.get_yaml_data
-      version = data.last && data.last[:changelog_version]
+    def self.get_current_release(data)
+      version = Changelog::Version.latest(data)
       self.parse_version(version) if version.present?
     end
 
@@ -27,14 +35,14 @@ module Changelog
         :version => version[:release_date],
         :pivotal_stories =>
           {
-            :features => version[:pivotal_stories].map{|s| s[:pivotal_story] if s[:pivotal_story][:story_type] == 'feature' }.compact,
-            :bugs => version[:pivotal_stories].map{|s| s[:pivotal_story] if s[:pivotal_story][:story_type] == 'bug' }.compact
+            :features => version[:pivotal_stories].map{|story| story if story[:story_type] == 'feature' }.compact,
+            :bugs => version[:pivotal_stories].map{|story| story if story[:story_type] == 'bug' }.compact
           }
       }
     end
 
     def self.build_version_stories(rebuild=false)
-      data = self.get_yaml_data
+      data = self.get_raw_yaml_data
       project = ENV['PTR_PRID'] && PivotalTracker::Project.find(ENV['PTR_PRID'])
       if project
         data.map do |content|
@@ -56,7 +64,7 @@ module Changelog
           end
           {:changelog_version => version}
         end
-      self.write_yaml_file(data.to_yaml)
+      self.write_yaml_file(data)
       else
         p 'Unnable to retrieve project. Please check Project ID and Pivotaltracker Client token.'
       end
@@ -66,9 +74,10 @@ module Changelog
       p 'Writting yaml..'
       FileUtils.touch(File.join(Rails.root, 'changelog.yml'))
       file = File.open(File.join(Rails.root, 'changelog.yml'), 'w')
-      file.write(data)
+      file.write(data.to_yaml)
       file.close
       p 'Task completed'
+      true
     end
 
   end

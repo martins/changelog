@@ -1,38 +1,25 @@
-<%= form_for(@changelog_version) do |f| %>
-  <% if @changelog_version.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@changelog_version.errors.count, "error") %> prohibited this changelog_version from being saved:</h2>
-
-      <ul>
-      <% @changelog_version.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
+<%= form_tag("/changelog/versions/#{@id}", :id=>'new_changelog_version', :class=>'new_changelog_version', :method => @method) %>
   <div class="field">
     <div id='notice'>Name will be generated automatically in form of major.minor.build !</div>
-    <%= f.label :name %><br />
-    <%= f.text_field :name, :disabled => true %>
+    <%= label_tag :name %><br />
+    <%= text_field_tag 'changelog_version[name]', params[:name] || params[:changelog_version] && params[:changelog_version][:name], {:disabled => true} %>
   </div>
   <div class="field">
-    <%= f.label :major %><br />
-    <%= f.text_field :major %>
+    <%= label_tag :major %><br />
+    <%= text_field_tag 'changelog_version[major]', params[:major] || params[:changelog_version] && params[:changelog_version][:major] %>
   </div>
   <div class="field">
-    <%= f.label :minor %><br />
-    <%= f.text_field :minor %>
+    <%= label_tag :minor %><br />
+    <%= text_field_tag 'changelog_version[minor]', params[:minor] || params[:changelog_version] && params[:changelog_version][:minor] %>
   </div>
   <div class="field">
-    <%= f.label :build %><br />
-    <%= f.text_field :build %>
+    <%= label_tag :build %><br />
+    <%= text_field_tag 'changelog_version[build]', params[:build] || params[:changelog_version] && params[:changelog_version][:build] %>
   </div>
   <div class="field">
-    <%= f.label :release_date %><br />
-    <%= f.date_select :release_date %>
+    <%= label_tag :release_date %><br />
+    <%= select_date(@date) %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= submit_tag %>
   </div>
-<% end %>

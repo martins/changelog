@@ -12,10 +12,10 @@
 
   <% @changelog_versions.each do |changelog_version| %>
     <tr class = 'details-row'>
-      <td><%= changelog_version.name %></td>
-      <td><%= changelog_version.release_date %></td>
+      <td><%= changelog_version[:name] %></td>
+      <td><%= changelog_version[:release_date] %></td>
       <td><%= link_to 'Edit', edit_changelog_version_path(changelog_version) %></td>
-      <td><%= button_to 'Destroy', changelog_version, :method => :delete %></td>
+      <td><%= button_to 'Destroy', "versions/#{changelog_version[:id]}", :method => :delete %></td>
     </tr>
   <% end %>
   </table>
