@@ -12,10 +12,6 @@ class ChangelogController < ApplicationController
     respond_with @current_release
   end
 
-  def index
-    @changelog_data
-  end
-
   private
 
   def load_yaml_data

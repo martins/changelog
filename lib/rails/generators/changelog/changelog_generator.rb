@@ -8,26 +8,11 @@ class ChangelogGenerator < Rails::Generators::Base
     File.join(File.dirname(__FILE__), 'templates')
   end
 
-  def self.next_migration_number(dirname) #:nodoc:
-      "%.3d" % (current_migration_number(dirname) + 1)
-  end
-
 
   # Every method that is declared below will be automatically executed when the generator is run
 
   def copy_initializer_file
     copy_file 'pivotaltracker_initializer.rb', 'config/initializers/pivotaltracker.rb'
-  end
-
-  def create_migration_files
-    self.class.migration_lookup_at(File.join(Changelog::Engine.root, 'db/migrate')).each do |file|
-      name = File.basename(file).gsub!(/\d+_/,'')
-      begin
-        migration_template File.expand_path(file), "db/migrate/#{name}"
-      rescue Rails::Generators::Error => e
-        puts "   \e[1m\e[34midentical\e[0m  Migration #{name} already exists!"
-      end
-    end
   end
 
   def copy_test_files

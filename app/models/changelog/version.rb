@@ -89,60 +89,7 @@ module Changelog
       formated_data.map{|version| [version[:name], version[:id]]}
     end
 
-
-
-
-
-
-
-
-    def self.add_stories
-      version_ids = self.used_version_ids
-      empty_release_versions = (version_ids.present? ? Changelog::Version.where('id NOT IN (:version_ids)', {:version_ids => version_ids}) : Changelog::Version.all)
-      empty_release_versions.each do |release_version|
-        Changelog::PivotalStory.store_pivotal_stories(release_version.name, release_version.id)
-      end
-    end
-
-    def self.rebuild_release_versions
-      p "#{Changelog::PivotalStory.delete_all} deleted."
-      Changelog::Version.add_stories
-    end
-
-
-
-    def self.with_stories
-      version_ids = self.used_version_ids
-      Changelog::Version.where('id IN (:version_ids)', {:version_ids => version_ids}) if version_ids.present?
-    end
-
-    def self.update_stories
-      existing_stories_ids = Changelog::PivotalStory.select(:story_id).map(&:story_id)
-      Changelog::Version.all.each do |release_version|
-        Changelog::PivotalStory.store_pivotal_stories(release_version.name, release_version.id, existing_stories_ids)
-      end
-    end
-
-    def remove_stories
-      pivotal_stories.delete_all if pivotal_stories.present?
-    end
-
-    def self.parse_version(version)
-      {
-        :version => version.release_date,
-        :pivotal_stories =>
-          {
-            :features => version.pivotal_stories.where(:story_type => 'feature'),
-            :bugs => version.pivotal_stories.where(:story_type => 'bug')
-          }
-      }
-    end
-
     private
-
-    def generate_name
-      self.name = "#{self.major}.#{self.minor}.#{self.build}"
-    end
 
     def self.used_version_ids
       version_ids = Changelog::PivotalStory.select('version_id').map(&:version_id).uniq
