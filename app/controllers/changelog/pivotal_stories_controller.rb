@@ -1,10 +1,12 @@
 class Changelog::PivotalStoriesController < ApplicationController
+  before_filter :load_yaml_data
+
   def index
-    version = (params[:version] && Changelog::Version.find(params[:version])) || Changelog::Version.latest
+    version = (params[:version] && Changelog::Version.find_version_with_stories(params[:version], @changelog_data_formated)) || Changelog::Version.latest(@changelog_data_formated)
     if version.present?
-      @stories = version.pivotal_stories
-      @possible_versions = Changelog::Version.with_stories.select('DISTINCT id, name')
-      @selected_version = version.id
+      @stories = version[:pivotal_stories]
+      @possible_versions = Changelog::Version.get_possible_versions(@changelog_data_formated)
+      @selected_version = version[:id]
     else
       @stories = []
       @possible_versions = []
@@ -13,17 +15,27 @@ class Changelog::PivotalStoriesController < ApplicationController
   end
 
   def update
-    @story = Changelog::PivotalStory.find(params[:id])
-    if @story.update_attributes(:title => params[:title])
-      redirect_to changelog_pivotal_stories_url(:version => params[:version]), :flash => {:notice => 'Story updated'}
+    if Changelog::PivotalStory.update_story(params[:id].to_i, params[:title], params[:version].to_i, @changelog_data_raw)
+      flash[:notice] = 'Story updated'
     else
-      render :action => :index
+      flash[:error] = 'Unexpected error while updating pivotal story.'
     end
+    redirect_to changelog_pivotal_stories_url(:version => params[:version])
   end
 
   def destroy
-    @story = Changelog::PivotalStory.find(params[:id])
-    @story.destroy
-    redirect_to(changelog_pivotal_stories_url, :flash => {:notice => 'Story deleted'})
+    if Changelog::PivotalStory.delete_pivotal_story(params[:id].to_i, params[:version].to_i, @changelog_data_raw)
+      flash[:notice] = 'Story deleted'
+    else
+      flash[:error] = 'Unexpected error while deleting pivotal story!'
+    end
+    redirect_to changelog_pivotal_stories_url(:version => params[:version])
+  end
+
+  private
+
+  def load_yaml_data
+    @changelog_data_raw = Changelog::Release.get_raw_yaml_data
+    @changelog_data_formated = Changelog::Release.get_formated_yaml_data
   end
 end

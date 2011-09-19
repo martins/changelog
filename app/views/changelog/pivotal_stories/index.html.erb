@@ -3,14 +3,13 @@
   <div id = 'version-select'>
     <%= form_tag changelog_pivotal_stories_path, :method => :get, :remote => true do %>
       <%= label_tag :version_id, 'Release version' %>
-      <%= select_tag :version,  options_from_collection_for_select(@possible_versions, 'id', 'name', :selected => @selected_version), :onchange => 'this.form.submit();' %>
+      <%= select_tag :version,  options_for_select(@possible_versions, :selected => @selected_version), :onchange => 'this.form.submit();' %>
       <%= submit_tag 'Show', :disable_with => 'Loading...' %>
     <% end %>
   </div>
   </br>
   <table id = 'stories-list'>
     <tr class = 'title-row'>
-      <th>Release version</th>
       <th>Type</th>
       <th>Title</th>
       <th>Accepted at</th>
@@ -20,15 +19,14 @@
     </tr>
   <% @stories.each do |story| %>
     <tr class = 'details-row'>
-      <%= form_tag changelog_pivotal_story_path(story.id), :method => :put do |f| %>
-        <td id = 'story-version'><%= label_tag story.version.name %></td>
-        <td id = 'story-type'><%= label_tag story.story_type %></td>
-        <td id = 'story-title'><%= text_area_tag :title, story.title %></td>
-        <td id = 'story-accepted'><%= label_tag story.accepted_at %></td>
+      <%= form_tag changelog_pivotal_story_path(story[:story_id]), :method => :put do |f| %>
+        <td id = 'story-type'><%= label_tag story[:story_type] %></td>
+        <td id = 'story-title'><%= text_area_tag :title, story[:title] %></td>
+        <td id = 'story-accepted'><%= label_tag story[:accepted_at] %></td>
         <td><%= submit_tag 'Update', :disable_with => 'Updating...' %> </td>
         <td><%= hidden_field_tag 'version', @selected_version %></td>
       <% end %>
-        <td><%= button_to 'Destroy', story, :method => :delete %></td>
+        <td><%= button_to 'Destroy', changelog_pivotal_story_path(:id => story[:story_id], :version => @selected_version), :method => :delete %></td>
     </tr>
   <% end %>
   </table>

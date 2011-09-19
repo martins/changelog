@@ -80,6 +80,15 @@ module Changelog
       formated_data.detect{|version| version[:name]==version_name}
     end
 
+    def self.find_version_with_stories(version_id, formated_data)
+      formated_data.detect{|version| (version[:id] == version_id.to_i && version[:pivotal_stories].present?)}
+    end
+
+    def self.get_possible_versions(formated_data)
+      formated_data.reject!{|version| (version.blank? || version[:pivotal_stories].blank?)}
+      formated_data.map{|version| [version[:name], version[:id]]}
+    end
+
 
 
 
