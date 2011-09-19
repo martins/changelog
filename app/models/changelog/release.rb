@@ -4,7 +4,8 @@ module Changelog
     def self.get_raw_yaml_data
       file_name=File.join(Rails.root, "changelog.yml")
       if File.exist?(file_name)
-        YAML.load_file(file_name)
+        content = YAML.load_file(file_name)
+        self.parse_content(content)
       else
         []
       end
@@ -18,6 +19,29 @@ module Changelog
       raw_data.each do |version|
         version[:user_stories].map!{|story| story[:user_story]} if version[:user_stories].present?
       end
+    end
+
+    def self.parse_content(content)
+      v_seq = 0
+      content.map! do |version|
+        if version[:changelog_version]
+          v_seq += 1
+          version[:changelog_version][:id] = v_seq
+          complex_name = version[:changelog_version][:name].split('.')
+          version[:changelog_version][:build]=complex_name.pop
+          version[:changelog_version][:minor]=complex_name.pop
+          version[:changelog_version][:major]=complex_name.pop
+          s_seq = 0
+          version[:changelog_version][:user_stories].map! do |story|
+            if story[:user_story]
+              s_seq += 1
+              story[:user_story][:story_id] = s_seq
+            end
+            story
+          end if version[:changelog_version][:user_stories].present?
+        end
+        version
+      end.compact
     end
 
     def self.get_release_notes(data)
@@ -60,7 +84,6 @@ module Changelog
                 version[:user_stories]<<{:user_story=>{
                   :title => new_story.name,
                   :story_type => new_story.story_type,
-                  :story_id => new_story.id,
                   :accepted_at => new_story.accepted_at.to_date
                   }
                 }
@@ -80,9 +103,24 @@ module Changelog
       p 'Writting yaml..'
       FileUtils.touch(File.join(Rails.root, 'changelog.yml'))
       file = File.open(File.join(Rails.root, 'changelog.yml'), 'w')
-      file.write(data.to_yaml)
+      parsed_data = self.remove_temporary_data(data)
+      file.write(parsed_data.to_yaml)
       file.close
       true
+    end
+
+    def self.remove_temporary_data(data)
+      data.map! do |version|
+        version[:changelog_version].delete(:id)
+        version[:changelog_version].delete(:major)
+        version[:changelog_version].delete(:minor)
+        version[:changelog_version].delete(:build)
+        version[:changelog_version][:user_stories].map! do |story|
+          story[:user_story].delete(:story_id)
+          story
+        end if version[:changelog_version][:user_stories].present?
+        version
+      end
     end
 
   end

@@ -12,7 +12,7 @@ class Changelog::VersionsController < ApplicationController
     if previous_version.present?
       params[:major]=previous_version[:major]
       params[:minor]=previous_version[:minor]
-      params[:build]=(previous_version[:build].to_i+1)
+      params[:build]=(previous_version[:build].next)
     end
   end
 
