@@ -44,9 +44,7 @@ Gem::Specification.new do |s|
     "lib/rails/generators/changelog/templates/pivotaltracker_initializer.rb",
     "lib/tasks/.gitkeep",
     "lib/tasks/pivotal_tracker.rake",
-    "spec/factories.rb",
-    "spec/models/version_spec.rb",
-    "spec/spec_helper.rb"
+    "spec/models/version_spec.rb"
   ]
   s.require_paths = [%q{lib}]
   s.rubygems_version = %q{1.8.6}
