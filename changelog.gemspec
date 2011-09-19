@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{changelog}
-  s.version = "0.0.2"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Martins Zakis}]
-  s.date = %q{2011-08-31}
+  s.date = %q{2011-09-19}
   s.email = %q{martins.zakis@tieto.com}
   s.extra_rdoc_files = [
     "README"
@@ -21,15 +21,16 @@ Gem::Specification.new do |s|
     "README",
     "Rakefile",
     "VERSION",
-    "app/controllers/changelog/pivotal_stories_controller.rb",
+    "app/controllers/changelog/user_stories_controller.rb",
     "app/controllers/changelog/versions_controller.rb",
     "app/controllers/changelog_controller.rb",
-    "app/models/changelog/pivotal_story.rb",
+    "app/models/changelog/release.rb",
+    "app/models/changelog/user_story.rb",
     "app/models/changelog/version.rb",
     "app/views/changelog/_release_version_details.html.erb",
     "app/views/changelog/current_release.html.erb",
-    "app/views/changelog/pivotal_stories/index.html.erb",
     "app/views/changelog/release_notes.html.erb",
+    "app/views/changelog/user_stories/index.html.erb",
     "app/views/changelog/versions/_form.html.erb",
     "app/views/changelog/versions/edit.html.erb",
     "app/views/changelog/versions/index.html.erb",
@@ -37,9 +38,6 @@ Gem::Specification.new do |s|
     "changelog.gemspec",
     "config/initializers/changelog.rb",
     "config/routes.rb",
-    "db/migrate/20110817132722_create_pivotal_stories.rb",
-    "db/migrate/20110819065503_create_versions.rb",
-    "db/migrate/20110819124434_add_accepted_at_to_pivotal_stories.rb",
     "lib/changelog.rb",
     "lib/engine.rb",
     "lib/rails/generators/changelog/changelog_generator.rb",
@@ -52,7 +50,7 @@ Gem::Specification.new do |s|
   ]
   s.require_paths = [%q{lib}]
   s.rubygems_version = %q{1.8.6}
-  s.summary = %q{Gets stories from PivotalTracker and stores them for version management}
+  s.summary = %q{Creates and stores changelog in yaml file. Allows to get stories from pivotal tracker.}
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
