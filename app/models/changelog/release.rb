@@ -56,10 +56,11 @@ module Changelog
                   :title => new_story.name,
                   :story_type => new_story.story_type,
                   :story_id => new_story.id,
-                  :accepted_at => new_story.accepted_at,
+                  :accepted_at => new_story.accepted_at.to_date
                   }
                 }
               end
+            p "#{stories.count} added to version #{version[:name]}"
             end
           end
           {:changelog_version => version}
