@@ -1,10 +1,10 @@
-class Changelog::PivotalStoriesController < ApplicationController
+class Changelog::UserStoriesController < ApplicationController
   before_filter :load_yaml_data
 
   def index
     version = (params[:version] && Changelog::Version.find_version_with_stories(params[:version], @changelog_data_formated)) || Changelog::Version.latest(@changelog_data_formated)
     if version.present?
-      @stories = version[:pivotal_stories]
+      @stories = version[:user_stories]
       @possible_versions = Changelog::Version.get_possible_versions(@changelog_data_formated)
       @selected_version = version[:id]
     else
@@ -15,21 +15,21 @@ class Changelog::PivotalStoriesController < ApplicationController
   end
 
   def update
-    if Changelog::PivotalStory.update_story(params[:id].to_i, params[:title], params[:version].to_i, @changelog_data_raw)
+    if Changelog::UserStory.update_story(params[:id].to_i, params[:title], params[:version].to_i, @changelog_data_raw)
       flash[:notice] = 'Story updated'
     else
-      flash[:error] = 'Unexpected error while updating pivotal story.'
+      flash[:error] = 'Unexpected error while updating user story.'
     end
-    redirect_to changelog_pivotal_stories_url(:version => params[:version])
+    redirect_to changelog_user_stories_url(:version => params[:version])
   end
 
   def destroy
-    if Changelog::PivotalStory.delete_pivotal_story(params[:id].to_i, params[:version].to_i, @changelog_data_raw)
+    if Changelog::UserStory.delete_user_story(params[:id].to_i, params[:version].to_i, @changelog_data_raw)
       flash[:notice] = 'Story deleted'
     else
-      flash[:error] = 'Unexpected error while deleting pivotal story!'
+      flash[:error] = 'Unexpected error while deleting user story!'
     end
-    redirect_to changelog_pivotal_stories_url(:version => params[:version])
+    redirect_to changelog_user_stories_url(:version => params[:version])
   end
 
   private

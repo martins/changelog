@@ -7,7 +7,7 @@ namespace :changelog do
     p 'Task completed'
   end
 
-  desc "Clears changelog data bases and repopulates it with data"
+  desc "Clears changelog versions from stories and repopulates it with pivotal tracker stories"
   task :rebuild => :environment do
     Changelog::Release.build_version_stories(true)
     p 'Task completed'

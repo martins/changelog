@@ -16,14 +16,14 @@ module Changelog
         version[:changelog_version]
       end
       raw_data.each do |version|
-        version[:pivotal_stories].map!{|story| story[:pivotal_story]} if version[:pivotal_stories].present?
+        version[:user_stories].map!{|story| story[:user_story]} if version[:user_stories].present?
       end
     end
 
     def self.get_release_notes(data)
       relese_notes = []
       data.each do |version|
-        if version.present? && version[:pivotal_stories].present?
+        if version.present? && version[:user_stories].present?
           relese_notes << self.parse_version(version)
         end
       end
@@ -38,10 +38,10 @@ module Changelog
     def self.parse_version(version)
       {
         :version => version[:release_date],
-        :pivotal_stories =>
+        :user_stories =>
           {
-            :features => version[:pivotal_stories].map{|story| story if story[:story_type] == 'feature' }.compact,
-            :bugs => version[:pivotal_stories].map{|story| story if story[:story_type] == 'bug' }.compact
+            :features => version[:user_stories].map{|story| story if story[:story_type] == 'feature' }.compact,
+            :bugs => version[:user_stories].map{|story| story if story[:story_type] == 'bug' }.compact
           }
       }
     end
@@ -52,12 +52,12 @@ module Changelog
       if project
         data.map! do |content|
           version = content[:changelog_version]
-          if version.present? && (rebuild || version[:pivotal_stories].empty?)
-            version[:pivotal_stories]=[]
+          if version.present? && (rebuild || (version[:user_stories] && version[:user_stories].empty?))
+            version[:user_stories]=[]
             stories = project.stories.all(:story_type => ['feature', 'bug'], :current_state => 'accepted', :label => version[:name], :includedone => true)
             if stories.present?
               stories.each do |new_story|
-                version[:pivotal_stories]<<{:pivotal_story=>{
+                version[:user_stories]<<{:user_story=>{
                   :title => new_story.name,
                   :story_type => new_story.story_type,
                   :story_id => new_story.id,
@@ -82,7 +82,6 @@ module Changelog
       file = File.open(File.join(Rails.root, 'changelog.yml'), 'w')
       file.write(data.to_yaml)
       file.close
-      p '..done'
       true
     end
 

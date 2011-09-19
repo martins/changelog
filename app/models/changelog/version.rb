@@ -8,7 +8,7 @@ module Changelog
     end
 
     def self.latest(data)
-      data.reject!{|version| (version.blank? || version[:pivotal_stories].blank?)}
+      data.reject!{|version| (version.blank? || version[:user_stories].blank?)}
       latest_version = data.map{|version| version[:release_date]}.sort.last
       data.detect{|version| version[:release_date] == latest_version}
     end
@@ -25,7 +25,7 @@ module Changelog
           :build => version_data['build'].to_i,
           :id => version_data['id'],
           :release_date => version_data['release_date'],
-          :pivotal_stories => []
+          :user_stories => []
         }
       }
       Changelog::Release.write_yaml_file(raw_changelog_data)
@@ -66,7 +66,7 @@ module Changelog
             :build => version_data['build'].to_i,
             :id => version[:changelog_version][:id],
             :release_date => version_data['release_date'],
-            :pivotal_stories => (version[:changelog_version][:name]==version_data['name'] ? version[:changelog_version][:pivotal_stories] : [])
+            :user_stories => (version[:changelog_version][:name]==version_data['name'] ? version[:changelog_version][:user_stories] : [])
             }
           }
         else
@@ -86,18 +86,18 @@ module Changelog
     end
 
     def self.find_version_with_stories(version_id, formated_data)
-      formated_data.detect{|version| (version[:id] == version_id.to_i && version[:pivotal_stories].present?)}
+      formated_data.detect{|version| (version[:id] == version_id.to_i && version[:user_stories].present?)}
     end
 
     def self.get_possible_versions(formated_data)
-      formated_data.reject!{|version| (version.blank? || version[:pivotal_stories].blank?)}
+      formated_data.reject!{|version| (version.blank? || version[:user_stories].blank?)}
       formated_data.map{|version| [version[:name], version[:id]]}
     end
 
     private
 
     def self.used_version_ids
-      version_ids = Changelog::PivotalStory.select('version_id').map(&:version_id).uniq
+      version_ids = Changelog::UserStory.select('version_id').map(&:version_id).uniq
     end
   end
 end

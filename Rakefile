@@ -3,7 +3,7 @@ begin
   require "jeweler"
   Jeweler::Tasks.new do |gem|
     gem.name = "changelog"
-    gem.summary = "Gets stories from PivotalTracker and stores them for version management"
+    gem.summary = "Creates and stores changelog in yaml file. Allows to get stories from pivotal tracker."
     gem.email = "martins.zakis@tieto.com"
     gem.authors = ["Martins Zakis"]
   end

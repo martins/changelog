@@ -1,7 +1,7 @@
-<% if pivotal_stories.present? %>
+<% if user_stories.present? %>
   <h4><%= story_type %></h4>
   <ul>
-    <% pivotal_stories.each do |story| %>
+    <% user_stories.each do |story| %>
       <li><%= story[:title] %></li>
     <% end %>
   </ul>

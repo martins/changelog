@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   namespace :changelog do
     get :release_notes
     get :current_release
-    resources :pivotal_stories, :only => [:index, :update, :destroy]
+    resources :user_stories, :only => [:index, :update, :destroy]
     resources :versions, :except => :show
   end
 

@@ -3,8 +3,8 @@
   <% if @relese_notes %>
     <% @relese_notes.each do |release| %>
       <h3><%= release[:version] %></h3>
-      <%= render 'release_version_details', :pivotal_stories => release[:pivotal_stories][:features], :story_type => 'Feature' %>
-      <%= render 'release_version_details', :pivotal_stories => release[:pivotal_stories][:bugs], :story_type => 'Bug' %>
+      <%= render 'release_version_details', :user_stories => release[:user_stories][:features], :story_type => 'Feature' %>
+      <%= render 'release_version_details', :user_stories => release[:user_stories][:bugs], :story_type => 'Bug' %>
     <% end %>
   <% end %>
 </div>
