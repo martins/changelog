@@ -84,7 +84,7 @@ module Changelog
                 version[:user_stories]<<{:user_story=>{
                   :title => new_story.name,
                   :story_type => new_story.story_type,
-                  :accepted_at => new_story.accepted_at.to_date
+                  :accepted_at => new_story.accepted_at.strftime('%Y-%m-%d')
                   }
                 }
               end
