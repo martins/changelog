@@ -13,10 +13,4 @@ namespace :changelog do
     p 'Task completed'
   end
 
-  desc 'Checks each release version for unsaved stories'
-  task :update => :environment do
-    Changelog::Release.build_version_stories(false, true)
-    p 'Task completed'
-  end
-
 end
