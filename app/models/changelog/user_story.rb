@@ -6,7 +6,7 @@ module Changelog
         if version[:changelog_version][:id] == version_id
           version[:changelog_version][:user_stories].map! do |story|
             if story[:user_story][:story_id] == story_id
-              story[:user_story][:title] = story_body
+              story[:user_story][:body] = story_body
             end
             story
           end

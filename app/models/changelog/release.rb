@@ -82,7 +82,7 @@ module Changelog
             if stories.present?
               stories.each do |new_story|
                 version[:user_stories]<<{:user_story=>{
-                  :title => new_story.name,
+                  :body => new_story.name,
                   :story_type => new_story.story_type,
                   :accepted_at => new_story.accepted_at.strftime('%Y-%m-%d')
                   }

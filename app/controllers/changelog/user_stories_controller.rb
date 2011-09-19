@@ -15,7 +15,7 @@ class Changelog::UserStoriesController < ApplicationController
   end
 
   def update
-    if Changelog::UserStory.update_story(params[:id].to_i, params[:title], params[:version].to_i, @changelog_data_raw)
+    if Changelog::UserStory.update_story(params[:id].to_i, params[:body], params[:version].to_i, @changelog_data_raw)
       flash[:notice] = 'Story updated'
     else
       flash[:error] = 'Unexpected error while updating user story.'

@@ -5,11 +5,11 @@ describe Changelog::Version do
     @raw_data = [
       {:changelog_version =>
         {:user_stories => [
-          {:user_story => {:accepted_at => "2011-08-18", :story_type => "bug", :title => "User can get infinite ammount of money and stuff."}},
-          {:user_story => {:accepted_at => "2011-08-19", :story_type => "feature", :title => "user should see current2."}}],
+          {:user_story => {:accepted_at => "2011-08-18", :story_type => "bug", :body => "User can get infinite ammount of money."}},
+          {:user_story => {:accepted_at => "2011-08-19", :story_type => "feature", :body => "User should see current version."}}],
         :release_date => "2011-09-10", :name => "0.5.9"}},
       {:changelog_version =>
-        {:user_stories => [{:user_story => {:accepted_at => "2011-08-25", :story_type => "feature", :title => "user should be able to see tasks"}}],
+        {:user_stories => [{:user_story => {:accepted_at => "2011-08-25", :story_type => "feature", :body => "User should be able to see stories"}}],
         :release_date => "2011-09-21", :name => "1.1.0"}},
       {:changelog_version => {:user_stories => [], :release_date => "2011-11-19", :name => "1.1.1"}}]
 
