@@ -40,7 +40,12 @@ module Changelog
     end
 
     def self.generate_id(formated_data)
-      (formated_data.map{|version| version[:id]}.sort.last + 1)
+      last_id = formated_data.map{|version| version[:id]}.sort.last
+      if last_id
+        last_id + 1
+      else
+        1
+      end
     end
 
     def self.remove_version(version_id, raw_data)

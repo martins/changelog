@@ -9,9 +9,11 @@ class Changelog::VersionsController < ApplicationController
     @date = Date.today
     @method = 'post'
     previous_version = Changelog::Version.get_previous_version(@changelog_data_formated)
-    params[:major]=previous_version[:major]
-    params[:minor]=previous_version[:minor]
-    params[:build]=(previous_version[:build].to_i+1)
+    if previous_version.present?
+      params[:major]=previous_version[:major]
+      params[:minor]=previous_version[:minor]
+      params[:build]=(previous_version[:build].to_i+1)
+    end
   end
 
   def edit

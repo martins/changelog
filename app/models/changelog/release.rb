@@ -2,7 +2,12 @@ module Changelog
   class Release
 
     def self.get_raw_yaml_data
-      YAML.load_file(File.join(Rails.root, "changelog.yml"))
+      file_name=File.join(Rails.root, "changelog.yml")
+      if File.exist?(file_name)
+        YAML.load_file(file_name)
+      else
+        []
+      end
     end
 
     def self.get_formated_yaml_data
