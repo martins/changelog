@@ -41,15 +41,17 @@ module Changelog
       }
     end
 
-    def self.build_version_stories(rebuild=false)
+    def self.build_version_stories(rebuild=false, update_stories=false)
       data = self.get_raw_yaml_data
       project = ENV['PTR_PRID'] && PivotalTracker::Project.find(ENV['PTR_PRID'])
       if project
-        data.map do |content|
+        data.map! do |content|
           version = content[:changelog_version]
-          if version.present? && (rebuild || version[:pivotal_stories].empty?)
-            version[:pivotal_stories]=[]
+          if version.present? && (rebuild || version[:pivotal_stories].empty? || update_stories)
+            version[:pivotal_stories]=[] unless update_stories
+            existing_stories_ids = version[:pivotal_stories].map{|story| story[:pivotal_story][:story_id].to_i} if (version[:pivotal_stories].present? && update_stories)
             stories = project.stories.all(:story_type => ['feature', 'bug'], :current_state => 'accepted', :label => version[:name], :includedone => true)
+            stories.reject!{|new_story| existing_stories_ids.include?(new_story.id)} if existing_stories_ids
             if stories.present?
               stories.each do |new_story|
                 version[:pivotal_stories]<<{:pivotal_story=>{
@@ -77,7 +79,7 @@ module Changelog
       file = File.open(File.join(Rails.root, 'changelog.yml'), 'w')
       file.write(data.to_yaml)
       file.close
-      p 'Task completed'
+      p '..done'
       true
     end
 
