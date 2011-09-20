@@ -4,6 +4,6 @@
     <%= render 'release_version_details', :user_stories => @current_release[:user_stories][:features], :story_type => 'Features' %>
     <%= render 'release_version_details', :user_stories => @current_release[:user_stories][:bugs], :story_type => 'Bugfixes' %>
   <% else %>
-    <h2>There is no current version specified!</h2>
+    <h2>Currently there is no current version available!</h2>
   <% end %>
 </div>
