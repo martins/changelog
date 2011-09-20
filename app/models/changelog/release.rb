@@ -44,7 +44,8 @@ module Changelog
       end.compact
     end
 
-    def self.get_release_notes(data)
+    def self.get_release_notes(data = false)
+      data = self.get_formated_yaml_data unless data
       relese_notes = []
       data.each do |version|
         if version.present? && version[:user_stories].present?
@@ -54,7 +55,8 @@ module Changelog
       relese_notes
     end
 
-    def self.get_current_release(data)
+    def self.get_current_release(data = false)
+      data = self.get_formated_yaml_data unless data
       version = Changelog::Version.latest(data)
       self.parse_version(version) if version.present?
     end
