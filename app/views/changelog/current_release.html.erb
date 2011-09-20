@@ -1,8 +1,8 @@
 <div id = 'current-release' class='changelog-container'>
   <% if @current_release %>
     <h2><%= @current_release[:version] %></h2>
-    <%= render 'release_version_details', :user_stories => @current_release[:user_stories][:features], :story_type => 'Feature' %>
-    <%= render 'release_version_details', :user_stories => @current_release[:user_stories][:bugs], :story_type => 'Bug' %>
+    <%= render 'release_version_details', :user_stories => @current_release[:user_stories][:features], :story_type => 'Features' %>
+    <%= render 'release_version_details', :user_stories => @current_release[:user_stories][:bugs], :story_type => 'Bugfixes' %>
   <% else %>
     <h2>There is no current version specified!</h2>
   <% end %>
