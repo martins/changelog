@@ -1,5 +1,6 @@
 class Changelog::UserStoriesController < ApplicationController
   before_filter :load_yaml_data
+  before_filter :check_environment
 
   def index
     version = (params[:version] && Changelog::Version.find_version_with_stories(params[:version], @changelog_data_formated)) || Changelog::Version.latest(@changelog_data_formated)
@@ -37,5 +38,9 @@ class Changelog::UserStoriesController < ApplicationController
   def load_yaml_data
     @changelog_data_raw = Changelog::Release.get_raw_yaml_data
     @changelog_data_formated = Changelog::Release.get_formated_yaml_data
+  end
+
+  def check_environment
+    raise ActionController::RoutingError.new("No route matches \"#{request.request_uri}\"") unless Rails.env == 'development'
   end
 end
