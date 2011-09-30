@@ -9,24 +9,19 @@ This project is designed as rails engine, it will collect stories from pivotaltr
   run from main app console
     rails generate changelog
   it will create initializer file
-  2.a.
-    if you want to also copy test files, answer yes to appropriate question
-    Bear in mind, that tests use rspec. So in order to run tests, you must first install appropriate gems.
 3.
   edit created initializer file. It should be in 'config/initializers/pivotaltracker.rb'
-  If you are using git, you should also include this file in .gitignore
+  If you are using git, you may also want to include this file in .gitignore
 4.
   You can add links in your app to these routes
   /changelog/release_notes - to display all versions with their user stories (only versions with at least one story will be displayed)
   /changelog/current_release - to display only latest release (by release_date) (only versions with at least one story will be displayed)
-  /changelog/versions - to display/add/edit/remove available versions
-  /changelog/user_stories - to display/edit/remove available stories
 5.
   You are ready to go!
 
 === IMPORTANT ===
 
-All data will be saved in changelog.yaml file in your application root directory. You can also open it and edit without web interface.
+All data will be saved in changelog.yaml file in your application root directory. You can open it and change contents in any text editor.
 changelog.yaml file should be included in your version management system (for example: git)
 
 === MODIFYING  ===
@@ -36,9 +31,3 @@ Existing views:
   app/views/changelog/current_release.html.erb
   app/views/changelog/release_notes.html.erb
   app/views/changelog/_release_version_details.html.erb
-  app/views/changelog/user_stories/index.html.erb
-  app/views/changelog/versions/index.html.erb
-  app/views/changelog/versions/_form.html.erb
-  app/views/changelog/versions/edit.html.erb
-  app/views/changelog/versions/new.html.erb
-  app/views/changelog/versions/show.html.erb

@@ -1,15 +1,20 @@
 namespace :changelog do
 
-  desc "Adds pivotal tracker stories to empty release versions"
-  task  :build => :environment do
-    p 'Adding stories..'
-    Changelog::Release.build_version_stories
-    p 'Task completed'
+  desc "Adds pivotal tracker stories to release versions with given label"
+  task  :build, [:label] => :environment do |t, args|
+    if args.label.present?
+      p 'Adding stories..'
+      Changelog::Release.build_version(args.label)
+      p 'Task completed'
+    else
+      p 'No label provaided!'
+    end
   end
 
-  desc "Clears changelog versions from stories and repopulates it with pivotal tracker stories"
-  task :rebuild => :environment do
-    Changelog::Release.build_version_stories(true)
+  desc "Sets 'Unreleased' versions date value to current date."
+  task :release => :environment do
+    p 'Updating date..'
+    Changelog::Release.update_release_date
     p 'Task completed'
   end
 
