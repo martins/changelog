@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{changelog}
-  s.version = "0.2.1"
+  s.version = "0.2.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Martins Zakis}]
@@ -17,7 +17,6 @@ Gem::Specification.new do |s|
   s.files = [
     ".rspec",
     "Gemfile",
-    "Gemfile.lock",
     "README",
     "Rakefile",
     "VERSION",
@@ -30,10 +29,8 @@ Gem::Specification.new do |s|
     "config/initializers/changelog.rb",
     "config/routes.rb",
     "lib/changelog.rb",
-    "lib/engine.rb",
     "lib/rails/generators/changelog/changelog_generator.rb",
     "lib/rails/generators/changelog/templates/pivotaltracker_initializer.rb",
-    "lib/tasks/.gitkeep",
     "lib/tasks/pivotal_tracker.rake"
   ]
   s.require_paths = [%q{lib}]
@@ -44,15 +41,15 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<rails>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, [">= 0"])
-      s.add_development_dependency(%q<pivotal-tracker>, [">= 0"])
     else
+      s.add_dependency(%q<rails>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
-      s.add_dependency(%q<pivotal-tracker>, [">= 0"])
     end
   else
+    s.add_dependency(%q<rails>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 0"])
-    s.add_dependency(%q<pivotal-tracker>, [">= 0"])
   end
 end
 
