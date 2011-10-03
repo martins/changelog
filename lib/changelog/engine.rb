@@ -1,4 +1,3 @@
-require 'changelog'
 require 'rails'
 
 module Changelog
