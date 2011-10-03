@@ -1,4 +1,4 @@
-if PivotalTracker
+if defined?(PivotalTracker)
   # PivotalTrcker project id
   ENV['PTR_PRID'] = ''
 
