@@ -69,13 +69,13 @@ module Changelog
             }}
           end
           data << version
-          p "#{stories.count} added to version '#{label}'"
+          puts "#{stories.count} added to version '#{label}'"
           self.write_yaml_file(data)
         else
-          p "No stories available with label '#{label}'"
+          puts "No stories available with label '#{label}'"
         end
       else
-        p 'Unnable to retrieve project. Please check Project ID and Pivotaltracker Client token.'
+        puts 'Unnable to retrieve project. Please check Project ID and Pivotaltracker Client token.'
       end
     end
 
@@ -91,7 +91,7 @@ module Changelog
     end
 
     def self.write_yaml_file(data)
-      p 'Writting yaml..'
+      puts 'Writting yaml..'
       FileUtils.touch(File.join(Rails.root, 'changelog.yml'))
       file = File.open(File.join(Rails.root, 'changelog.yml'), 'w')
       file.write(data.to_yaml)
