@@ -1,5 +1,5 @@
 This project is designed as rails engine, it will collect stories from pivotaltracker and display them as changelog.
-https://secure.travis-ci.org/martins/changelog.png
+"!https://secure.travis-ci.org/martins/changelog.png!":http://travis-ci.org/martins/changelog
 
 === INSTALLATION ===
 
