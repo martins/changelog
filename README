@@ -1,28 +1,40 @@
 This project is designed as rails engine, it will collect stories from pivotaltracker and display them as changelog.
+https://secure.travis-ci.org/martins/changelog.png
 
 === INSTALLATION ===
 
 1.
   include in gemfile
     gem 'changelog'
+  -IMPORTATNT-
+  If you also want to use rake tasks to automatically get user stories from PivotalTracker,
+  include 'pivotal-tracker' gem in your gemfile
 2.
-  run from main app console
-    rails generate changelog
-  it will create initializer file
+  If you want to include PivotalTracker feature:
+  a) run from console:
+      rails generate changelog
+    it will create initializer file
+  b)
+    edit created initializer file. It should be in 'config/initializers/pivotaltracker.rb'
+    If you are using git, you may also want to include this file in .gitignore
 3.
-  edit created initializer file. It should be in 'config/initializers/pivotaltracker.rb'
-  If you are using git, you may also want to include this file in .gitignore
-4.
   You can add links in your app to these routes
   /changelog/release_notes - to display all versions with their user stories (only versions with at least one story will be displayed)
   /changelog/current_release - to display only latest release (by release_date) (only versions with at least one story will be displayed)
+4.
+  Changelog creates two rake tasks:
+  a) rake changelog:build[label]
+    This allows to get from PivotalTracker user stories with given label.
+    This also automatically creates changelog_version in changelog.yml file with name set to given label an date set to 'Unreleased'
+  b) rake changelog:release
+    This searches changelog.yml file and sets 'Unreleased' date values to current date.
 5.
   You are ready to go!
 
 === IMPORTANT ===
 
-All data will be saved in changelog.yaml file in your application root directory. You can open it and change contents in any text editor.
-changelog.yaml file should be included in your version management system (for example: git)
+All data will be saved in changelog.yml file in your application root directory. You can open it and change contents in any text editor.
+changelog.yml file should be included in your version management system (for example: git)
 
 === MODIFYING  ===
 
