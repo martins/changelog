@@ -1,0 +1,28 @@
+---
+- :changelog_version:
+    :user_stories:
+    - :user_story:
+        :body: 'Imlemented first feature.'
+        :story_type: feature
+    - :user_story:
+        :body: 'Implemented second feature'
+        :story_type: feature
+    - :user_story:
+        :body: 'Implemented third feature.'
+        :story_type: feature
+    :release_date: "2011-10-21"
+    :name: 0.5.1
+- :changelog_version:
+    :user_stories:
+    - :user_story:
+        :body: 'Implemented one feature for second release.'
+        :story_type: feature
+    - :user_story:
+        :body: 'Fixed one bug for second release.'
+        :story_type: bug
+    :release_date: "2011-11-11"
+    :name: 1.0.1
+- :changelog_version:
+    :user_stories: []
+    :release_date: 'Unreleased'
+    :name: 1.0.2
