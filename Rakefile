@@ -22,6 +22,12 @@ begin
     gem.summary = "Creates and stores changelog in yaml file. Allows to get stories from pivotal tracker."
     gem.email = "martins.zakis@tieto.com"
     gem.authors = ["Martins Zakis"]
+    gem.files.exclude 'Gemfile.lock'
+    gem.files.exclude 'spec/*'
+    gem.files.exclude 'spec/*/*'
+    gem.files.exclude 'spec/*/*/*'
+    gem.files.exclude 'spec/*/*/*/*'
+    gem.files.exclude 'spec/*/*/*/*/*'
   end
   Jeweler::GemcutterTasks.new
 rescue
