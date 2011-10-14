@@ -5,19 +5,19 @@
 
 Gem::Specification.new do |s|
   s.name = %q{changelog}
-  s.version = "0.2.3"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Martins Zakis}]
-  s.date = %q{2011-10-07}
+  s.date = %q{2011-10-14}
   s.email = %q{martins.zakis@tieto.com}
   s.extra_rdoc_files = [
-    "README"
+    "README.textile"
   ]
   s.files = [
     ".rspec",
     "Gemfile",
-    "README",
+    "README.textile",
     "Rakefile",
     "VERSION",
     "app/controllers/changelog_controller.rb",
@@ -33,7 +33,8 @@ Gem::Specification.new do |s|
     "lib/changelog/utils.rb",
     "lib/rails/generators/changelog/changelog_generator.rb",
     "lib/rails/generators/changelog/templates/pivotaltracker_initializer.rb",
-    "lib/tasks/pivotal_tracker.rake"
+    "lib/tasks/pivotal_tracker.rake",
+    "spec/dummy/public/stylesheets/.gitkeep"
   ]
   s.require_paths = [%q{lib}]
   s.rubygems_version = %q{1.8.6}
