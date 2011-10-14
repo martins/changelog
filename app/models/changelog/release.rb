@@ -1,76 +1,41 @@
 module Changelog
   class Release
 
-    def self.get_raw_yaml_data
+    def self.get_yaml_data
       file_name=File.join(Rails.root, "changelog.yml")
       content = File.exist?(file_name) && YAML.load_file(file_name)
-      content ? content : []
-    end
-
-    def self.get_formated_yaml_data
-      raw_data = self.get_raw_yaml_data
-      raw_data.map! do |version|
-        version[:changelog_version]
-      end
-      raw_data.each do |version|
-        version[:user_stories].map!{|story| story[:user_story]} if version[:user_stories].present?
-      end
+      (content && content['changelog']) ? content['changelog'] : []
     end
 
     def self.get_release_notes
-      data = self.order_by_date(self.get_formated_yaml_data)
-      relese_notes = []
-      data.each do |version|
-        if version.present? && version[:user_stories].present?
-          relese_notes << self.parse_version(version)
-        end
-      end
-      relese_notes
+      data = self.order_by_date(self.get_yaml_data)
+      data.map{|version| version if (version.present? && (version['features'].present? || version['bugs'].present?))}.compact
     end
 
     def self.get_current_release
-      data = self.get_formated_yaml_data
-      data.reject!{|version| (version.blank? || version[:user_stories].blank?)}
-      latest_version = data.map{|version| version[:release_date]}.sort.last
-      version = data.detect{|version| version[:release_date] == latest_version}
-      self.parse_version(version) if version.present?
+      self.get_release_notes.first
     end
 
-    def self.parse_version(version)
-      {
-        :version => version[:release_date],
-        :user_stories =>
-          {
-            :features => version[:user_stories].map{|story| story if story[:story_type] == 'feature' }.compact,
-            :bugs => version[:user_stories].map{|story| story if story[:story_type] == 'bug' }.compact
-          }
-      }
-    end
-
-    def self.order_by_date(formated_data)
-      formated_data.sort{|x, y| y[:release_date] <=> x[:release_date]}
+    def self.order_by_date(data)
+      data.sort{|x, y| y['release_date'] <=> x['release_date']}
     end
 
     def self.build_version(label)
-      data = self.get_raw_yaml_data
       project = ENV['PTR_PRID'] && PivotalTracker::Project.find(ENV['PTR_PRID'])
       if project
         stories = label.present? && project.stories.all(:story_type => ['feature', 'bug'], :label => label, :includedone => true)
         if stories.present?
-          version = {:changelog_version => {
-            :name => label,
-            :release_date => 'Unreleased',
-            :user_stories => []
-          }}
+          version = {
+            'version' => label,
+            'release_date' => 'Unreleased',
+            'features' => [],
+            'bugs' => []
+          }
           stories.each do |story|
-            version[:changelog_version][:user_stories] << {:user_story=>{
-              :body => story.name,
-              :story_type => story.story_type
-            }}
+            version["#{story.story_type}s"] << {'body' => story.name}
           end
-          data << version
           puts "#{stories.count} added to version '#{label}'"
-          self.write_yaml_file(data)
+          self.add_version_to_yaml(version)
         else
           puts "No stories available with label '#{label}'"
         end
@@ -80,22 +45,36 @@ module Changelog
     end
 
     def self.update_release_date
-      data = self.get_raw_yaml_data
-      data.map! do |version|
-        if version[:changelog_version].present? && version[:changelog_version][:release_date] == 'Unreleased'
-          version[:changelog_version][:release_date] = Date.today.strftime('%Y-%m-%d')
+      if File.exists?(File.join(Rails.root, 'changelog.yml'))
+        content=""
+        File.open(File.join(Rails.root, 'changelog.yml'), 'r'){|file| content = file.read }
+        if content.gsub!(/release_date: '[a-zA-Z]{10}'/, "release_date: '#{Date.today.strftime('%Y-%m-%d')}'")
+          puts 'Writting yaml..'
+          File.open(File.join(Rails.root,'tmp/~changelog.yml'), 'w'){|file| file.write(content)}
+          FileUtils.move(File.join(Rails.root,'tmp/~changelog.yml'), File.join(Rails.root, 'changelog.yml'))
+        else
+          puts 'Nothing to update.'
         end
-        version
+      else
+        puts "Couldn't find changelog.yml file!"
       end
-      self.write_yaml_file(data)
+      true
     end
 
-    def self.write_yaml_file(data)
+    def self.add_version_to_yaml(version)
       puts 'Writting yaml..'
-      FileUtils.touch(File.join(Rails.root, 'changelog.yml'))
-      file = File.open(File.join(Rails.root, 'changelog.yml'), 'w')
-      file.write(data.to_yaml)
-      file.close
+      File.open(File.join(Rails.root, 'changelog.yml'), 'a') do |file|
+        file << "  - version: #{version['version']}\n"
+        file << "    release_date: '#{version['release_date']}'\n"
+        ['features','bugs'].each do |type|
+          if version[type].present?
+            file << "    #{type}:\n"
+            version[type].each{|story| file << "      - body: '#{story['body']}'\n"}
+          else
+            file << "    #{type}: []\n"
+          end
+        end
+      end
       true
     end
 
