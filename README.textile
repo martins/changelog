@@ -2,7 +2,7 @@ h2. Changelog "!https://secure.travis-ci.org/martins/changelog.png!":http://trav
 
 This project is designed as rails engine, it will collect stories from pivotaltracker and display them as changelog.
 
-=== *INSTALLATION* ===
+*INSTALLATION*
 
 # include in gemfile gem 'changelog'</br>
   - *IMPORTATNT* -</br>
@@ -24,12 +24,12 @@ This project is designed as rails engine, it will collect stories from pivotaltr
    This searches changelog.yml file and sets 'Unreleased' date values to current date.
 # You are ready to go!
 
-=== *IMPORTANT* ===
-
+*IMPORTANT*
 All data will be saved in changelog.yml file in your application root directory. You can open it and change contents in any text editor.
 changelog.yml file should be included in your version management system (for example: git)
+You can find example of changelog.yml file in spec/dummy directory of this engine
 
-=== *MODIFYING*  ===
+*MODIFYING*
 
 In order to change views, just create in your main app folder views with same name and path.</br>
 Existing views:</br>
